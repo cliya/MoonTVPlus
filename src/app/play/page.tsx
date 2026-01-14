@@ -10,6 +10,7 @@ import { usePlaySync } from '@/hooks/usePlaySync';
 import { getDoubanDetail } from '@/lib/douban.client';
 import { useDownload } from '@/contexts/DownloadContext';
 import { getAuthInfoFromBrowserCookie } from '@/lib/auth';
+import { useSite } from '@/components/SiteProvider';
 
 import {
   deleteFavorite,
@@ -86,6 +87,7 @@ function PlayPageClient() {
   const searchParams = useSearchParams();
   const enableComments = useEnableComments();
   const { addDownloadTask } = useDownload();
+  const { siteName } = useSite();
 
   // 获取 Proxy M3U8 Token
   const proxyToken = typeof window !== 'undefined' ? process.env.NEXT_PUBLIC_PROXY_M3U8_TOKEN || '' : '';
@@ -465,6 +467,15 @@ function PlayPageClient() {
   const [videoYear, setVideoYear] = useState(searchParams.get('year') || '');
   const [videoCover, setVideoCover] = useState('');
   const [videoDoubanId, setVideoDoubanId] = useState(0);
+
+  // 更新浏览器标题
+  useEffect(() => {
+    if (videoTitle) {
+      document.title = `${siteName} - ${videoTitle}`;
+    } else {
+      document.title = siteName;
+    }
+  }, [videoTitle, siteName]);
   // 豆瓣评分数据
   const [doubanRating, setDoubanRating] = useState<{
     value: number;
