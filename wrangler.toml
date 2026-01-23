@@ -1,0 +1,14 @@
+name = "moontv-plus"
+compatibility_date = "2024-01-01"
+main = ".open-next/worker.js"
+
+# Cloudflare Pages 配置
+# 构建命令: pnpm build:cloudflare
+# 主文件: .open-next/worker.js
+
+# 静态资源
+[site]
+bucket = ".open-next/assets"
+
+[env.production]
+# 生产环境变量可以在 Cloudflare Pages 控制台配置
